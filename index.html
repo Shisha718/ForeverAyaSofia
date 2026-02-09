@@ -5,169 +5,165 @@
 <title>For Aya Sofia ❤️</title>
 
 <style>
-body {
-    text-align: center;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg,#ffe6f0,#ffd6e7);
-    margin-top: 60px;
-    overflow: hidden;
+body{
+    text-align:center;
+    font-family:Arial;
+    background:linear-gradient(135deg,#ffe6f0,#ffd6e7);
+    overflow:hidden;
 }
 
-/* Floating hearts */
-.heart {
-    position: fixed;
-    bottom: -20px;
-    font-size: 20px;
-    color: #ff4d6d;
-    animation: floatUp 6s linear infinite;
+h1,h2,p{
+    color:#d6336c;
 }
 
-@keyframes floatUp {
-    to {
-        transform: translateY(-110vh);
-        opacity: 0;
-    }
+button{
+    padding:12px 25px;
+    font-size:18px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    margin:10px;
 }
 
-h2 {
-    color: #d6336c;
+#yes{background:#ff4d6d;color:white;}
+#no{background:gray;color:white;position:absolute;}
+
+#gameArea{
+    display:none;
+    height:200px;
 }
 
-h1 {
-    color: #ff4d6d;
-    text-shadow: 0 0 10px pink;
+.heart{
+    position:fixed;
+    bottom:-20px;
+    font-size:20px;
+    animation:floatUp 6s linear infinite;
 }
 
-#buttons {
-    margin-top: 40px;
-    position: relative;
+@keyframes floatUp{
+    to{transform:translateY(-110vh);opacity:0;}
 }
 
-button {
-    padding: 15px 30px;
-    font-size: 20px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    margin: 10px;
-    transition: 0.2s;
-}
-
-#yes {
-    background-color: #ff4d6d;
-    color: white;
-    box-shadow: 0 0 15px pink;
-}
-
-#yes:hover {
-    transform: scale(1.1);
-}
-
-#no {
-    background-color: gray;
-    color: white;
-    position: absolute;
-}
-
-#message {
-    margin-top: 40px;
-    font-size: 28px;
-    color: #d6336c;
-    min-height: 40px;
-}
-
-/* Confetti */
-.confetti {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    background: red;
-    top: 0;
-    animation: fall 3s linear forwards;
-}
-
-@keyframes fall {
-    to {
-        transform: translateY(100vh) rotate(720deg);
-    }
+#special{
+    display:none;
+    font-size:26px;
 }
 </style>
 </head>
 
 <body>
 
-<h2>My dearest Aya Sofia, if you can kindly accept this invitation 💌</h2>
+<h2 id="letter"></h2>
+
+<div id="main" style="display:none;">
 <h1>Would you be my Valentine? ❤️</h1>
 
-<div id="buttons">
-    <button id="yes">Yes 💖</button>
-    <button id="no">No 😢</button>
+<button onclick="showReasons()">Why you’re special 🌹</button>
+
+<div id="reasons"></div>
+
+<div>
+<button id="yes">Yes 💖</button>
+<button id="no">No 😢</button>
+</div>
 </div>
 
-<div id="message"></div>
+<h2 id="finalMsg"></h2>
 
-<!-- Optional music -->
+<div id="gameArea">
+<p>Catch the heart for a bonus surprise 😉</p>
+<button id="catch">❤️</button>
+</div>
+
+<div id="special">
+💍 You just made me the happiest person.  
+I promise laughs, smiles, and a beautiful date.  
+See you Saturday February 14th at 8 PM ❤️
+</div>
+
 <audio id="music" loop>
-  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+<source src="https://www.bensound.com/bensound-music/bensound-love.mp3">
 </audio>
 
 <script>
-const noBtn = document.getElementById("no");
-const yesBtn = document.getElementById("yes");
-const message = document.getElementById("message");
-const music = document.getElementById("music");
+const letterText="My dearest Aya Sofia, from the moment you smile, the world feels brighter. I made this little page just for you...";
+let i=0;
+function typeLetter(){
+ if(i<letterText.length){
+  document.getElementById("letter").innerHTML+=letterText[i];
+  i++;
+  setTimeout(typeLetter,40);
+ }else{
+  document.getElementById("main").style.display="block";
+ }
+}
+typeLetter();
 
-/* Escaping NO button */
-function moveNoButton(){
-    const x = Math.random()*(window.innerWidth-100);
-    const y = Math.random()*(window.innerHeight-100);
-    noBtn.style.left = x+"px";
-    noBtn.style.top = y+"px";
+const reasonsList=[
+"You make ordinary days magical ✨",
+"Your smile is my favorite sight 😊",
+"You’re kind, smart, and beautiful 💖",
+"You make my life brighter 🌸"
+];
+
+function showReasons(){
+ let r=document.getElementById("reasons");
+ r.innerHTML=reasonsList[Math.floor(Math.random()*reasonsList.length)];
 }
 
-noBtn.addEventListener("mouseover", moveNoButton);
-noBtn.addEventListener("click", moveNoButton);
+// escaping NO
+const noBtn=document.getElementById("no");
+noBtn.onmouseover=()=>{
+ noBtn.style.left=Math.random()*80+"vw";
+ noBtn.style.top=Math.random()*60+"vh";
+};
 
-/* Typewriter */
-function typeWriter(text,i=0){
-    if(i<text.length){
-        message.innerHTML += text.charAt(i);
-        setTimeout(()=>typeWriter(text,i+1),60);
-    }
-}
-
-/* Confetti */
-function confetti(){
-    for(let i=0;i<80;i++){
-        let c=document.createElement("div");
-        c.className="confetti";
-        c.style.left=Math.random()*100+"vw";
-        c.style.backgroundColor=["#ff4d6d","#ff99c8","#ffc2d1","#ff85a1"][Math.floor(Math.random()*4)];
-        c.style.animationDuration=(2+Math.random()*3)+"s";
-        document.body.appendChild(c);
-        setTimeout(()=>c.remove(),5000);
-    }
-}
-
-/* Floating hearts generator */
+// floating hearts
 setInterval(()=>{
-    let heart=document.createElement("div");
-    heart.className="heart";
-    heart.style.left=Math.random()*100+"vw";
-    heart.innerHTML="❤️";
-    heart.style.fontSize=(15+Math.random()*25)+"px";
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),6000);
+ let h=document.createElement("div");
+ h.className="heart";
+ h.innerHTML="❤️";
+ h.style.left=Math.random()*100+"vw";
+ document.body.appendChild(h);
+ setTimeout(()=>h.remove(),6000);
 },500);
 
-/* YES click */
-yesBtn.addEventListener("click",()=>{
-    document.getElementById("buttons").style.display="none";
-    message.innerHTML="";
-    confetti();
-    music.play();
-    typeWriter("See you on Saturday February 14th at 8 PM ❤️");
-});
+// YES click
+document.getElementById("yes").onclick=()=>{
+ document.getElementById("music").play();
+ document.getElementById("main").style.display="none";
+ typeFinal();
+};
+
+function typeFinal(){
+ const text="Yay! You said yes 😍";
+ let j=0;
+ let fm=document.getElementById("finalMsg");
+ function t(){
+  if(j<text.length){
+   fm.innerHTML+=text[j++];
+   setTimeout(t,60);
+  }else{
+   startGame();
+  }
+ }
+ t();
+}
+
+// mini game
+function startGame(){
+ document.getElementById("gameArea").style.display="block";
+ const catchBtn=document.getElementById("catch");
+ catchBtn.onmouseover=()=>{
+  catchBtn.style.position="absolute";
+  catchBtn.style.left=Math.random()*80+"vw";
+  catchBtn.style.top=Math.random()*60+"vh";
+ };
+ catchBtn.onclick=()=>{
+  document.getElementById("gameArea").style.display="none";
+  document.getElementById("special").style.display="block";
+ };
+}
 </script>
 
 </body>
