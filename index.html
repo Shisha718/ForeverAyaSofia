@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Aya Sofia ❤️</title>
+
+<style>
+body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#ffe6f0,#ffd6e7);
+    margin-top: 60px;
+    overflow: hidden;
+}
+
+/* Floating hearts */
+.heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 20px;
+    color: #ff4d6d;
+    animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+    to {
+        transform: translateY(-110vh);
+        opacity: 0;
+    }
+}
+
+h2 {
+    color: #d6336c;
+}
+
+h1 {
+    color: #ff4d6d;
+    text-shadow: 0 0 10px pink;
+}
+
+#buttons {
+    margin-top: 40px;
+    position: relative;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 20px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin: 10px;
+    transition: 0.2s;
+}
+
+#yes {
+    background-color: #ff4d6d;
+    color: white;
+    box-shadow: 0 0 15px pink;
+}
+
+#yes:hover {
+    transform: scale(1.1);
+}
+
+#no {
+    background-color: gray;
+    color: white;
+    position: absolute;
+}
+
+#message {
+    margin-top: 40px;
+    font-size: 28px;
+    color: #d6336c;
+    min-height: 40px;
+}
+
+/* Confetti */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: red;
+    top: 0;
+    animation: fall 3s linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(720deg);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<h2>My dearest Aya Sofia, if you can kindly accept this invitation 💌</h2>
+<h1>Would you be my Valentine? ❤️</h1>
+
+<div id="buttons">
+    <button id="yes">Yes 💖</button>
+    <button id="no">No 😢</button>
+</div>
+
+<div id="message"></div>
+
+<!-- Optional music -->
+<audio id="music" loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const message = document.getElementById("message");
+const music = document.getElementById("music");
+
+/* Escaping NO button */
+function moveNoButton(){
+    const x = Math.random()*(window.innerWidth-100);
+    const y = Math.random()*(window.innerHeight-100);
+    noBtn.style.left = x+"px";
+    noBtn.style.top = y+"px";
+}
+
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("click", moveNoButton);
+
+/* Typewriter */
+function typeWriter(text,i=0){
+    if(i<text.length){
+        message.innerHTML += text.charAt(i);
+        setTimeout(()=>typeWriter(text,i+1),60);
+    }
+}
+
+/* Confetti */
+function confetti(){
+    for(let i=0;i<80;i++){
+        let c=document.createElement("div");
+        c.className="confetti";
+        c.style.left=Math.random()*100+"vw";
+        c.style.backgroundColor=["#ff4d6d","#ff99c8","#ffc2d1","#ff85a1"][Math.floor(Math.random()*4)];
+        c.style.animationDuration=(2+Math.random()*3)+"s";
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),5000);
+    }
+}
+
+/* Floating hearts generator */
+setInterval(()=>{
+    let heart=document.createElement("div");
+    heart.className="heart";
+    heart.style.left=Math.random()*100+"vw";
+    heart.innerHTML="❤️";
+    heart.style.fontSize=(15+Math.random()*25)+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+},500);
+
+/* YES click */
+yesBtn.addEventListener("click",()=>{
+    document.getElementById("buttons").style.display="none";
+    message.innerHTML="";
+    confetti();
+    music.play();
+    typeWriter("See you on Saturday February 14th at 8 PM ❤️");
+});
+</script>
+
+</body>
+</html>
