@@ -150,20 +150,32 @@ function typeFinal(){
  t();
 }
 
-// mini game
+// mini game (FIXED)
 function startGame(){
- document.getElementById("gameArea").style.display="block";
+ const area=document.getElementById("gameArea");
  const catchBtn=document.getElementById("catch");
+
+ area.style.display="block";
+
+ let moves=0;
+
+ catchBtn.style.position="absolute";
+
  catchBtn.onmouseover=()=>{
-  catchBtn.style.position="absolute";
   catchBtn.style.left=Math.random()*80+"vw";
   catchBtn.style.top=Math.random()*60+"vh";
  };
+
  catchBtn.onclick=()=>{
-  document.getElementById("gameArea").style.display="none";
-  document.getElementById("special").style.display="block";
+  moves++;
+
+  if(moves>=3){
+    area.style.display="none";
+    document.getElementById("special").style.display="block";
+  }
  };
 }
+
 </script>
 
 </body>
